@@ -1,0 +1,83 @@
+" Settings:
+syntax on
+set laststatus=2 showtabline=2 ruler
+set tabstop=4    softtabstop=4 shiftwidth=4
+set expandtab    autoindent
+set number
+set list         listchars=tab:▸-,trail:●
+set hidden       noswapfile
+set undofile     undodir=~/.vim/.swapfiles/
+set wildmenu     wildignorecase
+set hlsearch     incsearch
+set ignorecase   smartcase
+set splitbelow   splitright
+set autoread
+set backspace=indent,eol,start
+set vb t_vb=
+set mouse=
+set cursorcolumn cursorline
+set showcmd
+set colorcolumn=100
+
+" Mappings
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR>
+nnoremap <right> :bn<cr>
+nnoremap <left> :bp<cr>
+
+" CCToggle:
+command! CCToggle call CCToggle()
+function! g:CCToggle()
+    if &colorcolumn != '' | setlocal colorcolumn&
+    else                  | setlocal colorcolumn=80,100
+    endif
+endfunction
+
+" Autocmds:
+augroup filetype_missing " missing filetypes to some file types
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter *.js             setfiletype javascript
+    autocmd BufNewFile,BufRead,BufEnter *.zpt            setfiletype html
+    autocmd BufNewFile,BufRead,BufEnter *.css            setfiletype css
+    autocmd BufNewFile,BufRead,BufEnter *.sql            setfiletype sql
+    autocmd BufNewFile,BufRead,BufEnter *.sh,sam,.bashrc setfiletype sh
+    autocmd BufNewFile,BufRead,BufEnter *.t,*.pm,*.pl    setfiletype perl
+    autocmd BufNewFile,BufRead,BufEnter *.pm6,*.pl6,*.t6 setfiletype perl
+    autocmd BufNewFile,BufRead,BufEnter *.raku,*.rakumod setfiletype perl
+augroup END
+
+" Plugins
+filetype plugin on
+call plug#begin('~/.vim/plugged')
+    Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-fugitive'
+    Plug 'ghifarit53/tokyonight-vim'
+call plug#end()
+
+" StripWhitespace:
+command! StripWhitespace call StripWhitespace()
+function! g:StripWhitespace()
+    let whitespaces  = '[\u0009\u0020\u00a0\u1680\u180e\u2000-'
+    let whitespaces .= '\u200b\u202f\u205f\u3000\ufeff]'
+    let pattern      = whitespaces . '\+$'
+    let line         = line(".")
+    let column       = col(".")
+    silent! execute ':0,' . line("$") . 's/' . pattern . '//e'
+    call histdel('search', -1)
+    call cursor(line, column)
+endfunction
+
+let mapleader = ","
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>g :GFiles<cr>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>g :GFiles<cr>
+nnoremap <leader>b :Buffers<cr>
+
+colorscheme tokyonight
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_enable_italic = 0
+let g:tokyonight_disable_italic_comment = 1
