@@ -53,6 +53,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-dadbod'
     Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
 
@@ -81,3 +82,11 @@ colorscheme tokyonight
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
+
+" DadBod
+let g:time   = 'postgres:///timemngt_pk'
+let g:zms    = 'postgres:///zms_pk'
+let g:tools  = 'postgres:///onlinetools_pk'
+nnoremap <leader>time :DB g:time
+nnoremap <leader>zms :DB g:zms
+nnoremap <leader>tools :DB g:tools
